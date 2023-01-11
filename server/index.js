@@ -10,6 +10,8 @@ const {sequelize} = require('./util/database')
 const {User} = require('./models/user')
 const {FavColor} = require('./models/favColor')
 
+const {login, register} = require('./controllers/authCtrl')
+
 const app = express()
 
 app.use(express.json())
@@ -17,6 +19,11 @@ app.use(cors())
 
 User.hasMany(FavColor)
 FavColor.belongsTo(User)
+
+
+app.post('/register', register)
+app.post('/login', login)
+
 
 sequelize
     .sync()
