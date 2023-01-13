@@ -1,12 +1,13 @@
 import {useContext} from 'react'
 import AuthContext from '../store/AuthContext'
 
-const Profile = () => {
+const Header = () => {
     const authCtx = useContext(AuthContext)
-    console.log(authCtx)
   return (
-    <div>Profile</div>
+    <div>Header
+        <button onClick={() => authCtx.logout()}>Logout</button>
+    </div>
   )
 }
 
-export default Profile
+export default Header

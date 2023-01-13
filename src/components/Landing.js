@@ -1,22 +1,41 @@
 import { useState, useContext } from "react"
 import axios from 'axios'
+import AuthContext from "../store/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 const Landing = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [register, setRegister] = useState(false)
+    const authCtx = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const handleLoginSubmit = (e) => {
         e.preventDefault()
-        
+        const body = {username, password}
+        axios.post('/login', body)
+            .then(({data}) => {
+                console.log(data)
+                authCtx.login(data.token, data.exp, data.userId)
+                navigate('/profile')
+            })
+            .catch(err => console.log(err))
+            
     }
 
+    
     const handleRegisterSubmit = (e) => {
         e.preventDefault()
         const body = {username, password}
         axios.post('/register', body)
-            .then(res => console.log(res.data))
+            .then(({data}) => {
+                console.log(data)
+                authCtx.login(data.token, data.exp, data.userId)
+            })
+            .catch(err => console.log(err))
+            
     }
+    // console.log(authCtx)
     return (
         <div>
             {register ? (
